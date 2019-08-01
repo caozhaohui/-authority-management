@@ -1,27 +1,16 @@
 package org.lanqiao.pojo;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Privs {
 
-    private Integer id;
-    private String name;
-    private Integer parentId;
-    private String url;
-    private String perms;
-    private int type;
-    private String icon;
-    private String createBy;
-    private Date createTime;
-    private String lastUpdateBy;
-    private Date lastUpdateTime;
-    private byte delFlag;
-
-    public Integer getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -33,11 +22,11 @@ public class Privs {
         this.name = name;
     }
 
-    public Integer getParentId() {
+    public BigInteger getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(BigInteger parentId) {
         this.parentId = parentId;
     }
 
@@ -73,7 +62,6 @@ public class Privs {
         this.icon = icon;
     }
 
-
     public String getCreateBy() {
         return createBy;
     }
@@ -82,11 +70,11 @@ public class Privs {
         this.createBy = createBy;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
@@ -98,21 +86,35 @@ public class Privs {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Date getLastUpdateTime() {
+    public Timestamp getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(Date lastUpdateTime) {
+    public void setLastUpdateTime(Timestamp lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public byte getDelFlag() {
+    public Integer getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(byte delFlag) {
+    public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
     }
+
+    private BigInteger id;
+    private String name;
+    private BigInteger parentId;
+    private String url;
+    private String perms;
+    private int type;
+    private String icon;
+    private String createBy;
+    private Timestamp createTime;
+    private String lastUpdateBy;
+    private Timestamp lastUpdateTime;
+    private Integer delFlag;
+
 
 
 }

@@ -1,6 +1,6 @@
 package org.lanqiao.vo;
 
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +12,19 @@ public class Menu {
     private String url;
     private String perms;
     private int type;
+    private byte delFlag;
+
+
+
+    public byte getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(byte delFlag) {
+        this.delFlag = delFlag;
+    }
+
+
 
     List<Menu> sonMenus = new ArrayList<>();
 

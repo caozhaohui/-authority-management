@@ -1,27 +1,30 @@
 package org.lanqiao.pojo;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class User {
 
-    private Integer id;
+
+    private BigInteger id;
     private String name;
     private String password;
     private String email;
     private String mobile;
-    private byte status;
+    private Integer status;
     private String createBy;
-    private Date createTime;
+    private Timestamp createTime;
     private String lastUpdateBy;
-    private Date lastUpdateTime;
-    private byte delFlag;
+    private Timestamp lastUpdateTime;
+    private Integer delFlag;
 
-    public Integer getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -57,11 +60,11 @@ public class User {
         this.mobile = mobile;
     }
 
-    public byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -73,11 +76,11 @@ public class User {
         this.createBy = createBy;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
@@ -89,21 +92,24 @@ public class User {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Date getLastUpdateTime() {
+    public Timestamp getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(Date lastUpdateTime) {
+    public void setLastUpdateTime(Timestamp lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public byte getDelFlag() {
+    public Integer getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(byte delFlag) {
+    public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
     }
+
+
+
 
 
 
