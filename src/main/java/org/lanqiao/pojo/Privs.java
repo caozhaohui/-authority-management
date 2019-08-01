@@ -1,16 +1,28 @@
 package org.lanqiao.pojo;
 
-import java.math.BigInteger;
-import java.sql.Timestamp;
+
 import java.util.Date;
 
 public class Privs {
 
-    public BigInteger getId() {
+    private Integer id;
+    private String name;
+    private Integer parentId;
+    private String url;
+    private String perms;
+    private int type;
+    private String icon;
+    private String createBy;
+    private Date createTime;
+    private String lastUpdateBy;
+    private Date lastUpdateTime;
+    private Integer delFlag;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -22,11 +34,11 @@ public class Privs {
         this.name = name;
     }
 
-    public BigInteger getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(BigInteger parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -70,11 +82,11 @@ public class Privs {
         this.createBy = createBy;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -86,11 +98,11 @@ public class Privs {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Timestamp getLastUpdateTime() {
+    public Date getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(Timestamp lastUpdateTime) {
+    public void setLastUpdateTime(Date lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
@@ -102,18 +114,12 @@ public class Privs {
         this.delFlag = delFlag;
     }
 
-    private BigInteger id;
-    private String name;
-    private BigInteger parentId;
-    private String url;
-    private String perms;
-    private int type;
-    private String icon;
-    private String createBy;
-    private Timestamp createTime;
-    private String lastUpdateBy;
-    private Timestamp lastUpdateTime;
-    private Integer delFlag;
+
+
+
+
+
+
 
 
 

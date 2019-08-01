@@ -1,26 +1,27 @@
 package org.lanqiao.pojo;
 
 
-import java.math.BigInteger;
 
+
+import java.sql.Date;
 import java.sql.Timestamp;
 
 
 public class Role {
-    private BigInteger id;
+    private Integer id;
     private String name;
     private String remark;
     private String createBy;
-    private Timestamp createTime;
+    private Date createTime;
     private String lastUpdateBy;
-    private Timestamp lastUpdateTime;
+    private Date lastUpdateTime;
     private Integer delFlag;
 
-    public BigInteger getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -48,11 +49,11 @@ public class Role {
         this.createBy = createBy;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -64,11 +65,11 @@ public class Role {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Timestamp getLastUpdateTime() {
+    public Date getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(Timestamp lastUpdateTime) {
+    public void setLastUpdateTime(Date lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
@@ -79,12 +80,4 @@ public class Role {
     public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
     }
-
-
-
-
-
-
-
-
 }

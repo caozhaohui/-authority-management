@@ -1,8 +1,10 @@
 package org.lanqiao.vo;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Menu {
 
@@ -12,21 +14,9 @@ public class Menu {
     private String url;
     private String perms;
     private int type;
-    private byte delFlag;
+    private Integer delFlag;
+    private List<Menu> list = new ArrayList<>();
 
-
-
-    public byte getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(byte delFlag) {
-        this.delFlag = delFlag;
-    }
-
-
-
-    List<Menu> sonMenus = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -76,14 +66,19 @@ public class Menu {
         this.type = type;
     }
 
-    public List<Menu> getSonMenus() {
-        return sonMenus;
+    public Integer getDelFlag() {
+        return delFlag;
     }
 
-    public void setSonMenus(List<Menu> sonMenus) {
-        this.sonMenus = sonMenus;
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 
+    public List<Menu> getList() {
+        return list;
+    }
 
-
+    public void setList(List<Menu> list) {
+        this.list = list;
+    }
 }
