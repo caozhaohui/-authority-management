@@ -37,4 +37,15 @@ public class UserService {
     List<User> user = map.selectAll();
     return user;
   }
+
+  // 更新用户
+  public  int updateUser(User user) {
+    UserMapper map = new UserMapper();
+    return map.updateUser(user);
+  }
+  // 添加用户
+  public  int addUser(User user) {
+    UserMapper map = new UserMapper();
+    return map.addUser(user);
+  }
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 public class interceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        HttpSession session = httpServletRequest.getSession();
+        HttpSession session = httpServletRequest.getSession(false);
         Object object = session.getAttribute("loginUserKey");
         if(object!=null){
             return true;

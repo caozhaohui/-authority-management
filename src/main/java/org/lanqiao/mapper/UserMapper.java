@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserMapper {
-
+  // 通过名字查询用户
   public User queryByName(String username) {
     String sql = "select * from sys_user where name =?";
     ArrayList<HashMap<String, Object>> list = null;
@@ -37,12 +37,12 @@ public class UserMapper {
     }
     return user;
   }
-
+  // 查询用户列表
   public List<User> selectAll() {
     String sql = "select * from sys_user ";
     ArrayList<HashMap<String, Object>> list = null;
     User user = null;
-    List<User> list1 = new ArrayList <>();
+    List<User> list1 = new ArrayList<>();
     try {
       list = SqlUtils.executeQuery(sql);
       if (list.size() > 0) {
@@ -69,7 +69,7 @@ public class UserMapper {
   }
 
   // 查询用户权限
-  public  String queryPerms(String userId) {
+  public String queryPerms(String userId) {
     String sql =
         "select e.perms  \n"
             + "from  \n"
@@ -170,5 +170,47 @@ public class UserMapper {
       ex.getStackTrace();
     }
     return list1;
+  }
+
+  //  添加用户
+  public int addUser(User user) {
+    String sql =
+        "insert into sys_user (name,password,email,mobile,create_by,create_time) value(?,?,?,?,?,?)";
+    int i = 0;
+    try {
+      i =
+          SqlUtils.executeUpdate(
+              sql,
+              user.getName(),
+              user.getPassword(),
+              user.getEmail(),
+              user.getMobile(),
+              user.getCreateBy(),
+              user.getCreateTime());
+    } catch (Exception e) {
+      e.getStackTrace();
+    }
+    return i;
+  }
+
+  //  添加用户
+  public int updateUser(User user) {
+    String sql =
+            "update  sys_user set name=?,password=?,email=?,mobile=?,create_by=?,create_time=?";
+    int i = 0;
+    try {
+      i =
+              SqlUtils.executeUpdate(
+                      sql,
+                      user.getName(),
+                      user.getPassword(),
+                      user.getEmail(),
+                      user.getMobile(),
+                      user.getCreateBy(),
+                      user.getCreateTime());
+    } catch (Exception e) {
+      e.getStackTrace();
+    }
+    return i;
   }
 }
