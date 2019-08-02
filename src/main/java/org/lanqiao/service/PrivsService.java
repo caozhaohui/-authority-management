@@ -12,4 +12,13 @@ public class PrivsService {
         PrivsMapper privsMapper = new PrivsMapper();
         privsMapper.addPrivs(privs);
     }
+
+    /**
+     * 删除目录菜单权限（更改状态）
+     */
+    public void deletePrivs(Integer privsId){
+        PrivsMapper privsMapper = new PrivsMapper();
+        privsMapper.delete(privsId);
+        System.out.println("刘粤是瓜皮");
+    }
 }
