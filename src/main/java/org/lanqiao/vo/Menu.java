@@ -1,84 +1,106 @@
 package org.lanqiao.vo;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Menu {
 
-    private Integer id;
-    private String name;
-    private Integer parent_id;
-    private String url;
-    private String perms;
-    private int type;
-    private Integer delFlag;
-    private List<Menu> list = new ArrayList<>();
+  private Integer id;
+  private String name;
+  private Integer parent_id;
+  private String url;
+  private String perms;
+  private int type;
+  private int flag;
 
+  List<Menu> sonMenus = new ArrayList<>();
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Integer getParent_id() {
-        return parent_id;
-    }
+  public Integer getParent_id() {
+    return parent_id;
+  }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
-    }
+  public void setParent_id(Integer parent_id) {
+    this.parent_id = parent_id;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-    public String getPerms() {
-        return perms;
-    }
+  public String getPerms() {
+    return perms;
+  }
 
-    public void setPerms(String perms) {
-        this.perms = perms;
-    }
+  public void setPerms(String perms) {
+    this.perms = perms;
+  }
 
-    public int getType() {
-        return type;
-    }
+  public int getType() {
+    return type;
+  }
 
-    public void setType(int type) {
-        this.type = type;
-    }
+  public void setType(int type) {
+    this.type = type;
+  }
 
-    public Integer getDelFlag() {
-        return delFlag;
-    }
+  public List<Menu> getSonMenus() {
+    return sonMenus;
+  }
 
-    public void setDelFlag(Integer delFlag) {
-        this.delFlag = delFlag;
-    }
+  public void setSonMenus(List<Menu> sonMenus) {
+    this.sonMenus = sonMenus;
+  }
 
-    public List<Menu> getList() {
-        return list;
-    }
+  public int getFlag() {
+    return flag;
+  }
 
-    public void setList(List<Menu> list) {
-        this.list = list;
-    }
+  public void setFlag(int flag) {
+    this.flag = flag;
+  }
+
+  @Override
+  public String toString() {
+    return "Menu{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", parent_id="
+        + parent_id
+        + ", url='"
+        + url
+        + '\''
+        + ", perms='"
+        + perms
+        + '\''
+        + ", type="
+        + type
+        + ", flag="
+        + flag
+        + ", sonMenus="
+        + sonMenus
+        + '}';
+  }
 }

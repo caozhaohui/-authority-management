@@ -1,108 +1,152 @@
 package org.lanqiao.pojo;
 
-
 import java.util.Date;
 
 public class User {
 
+  private Integer id;
+  private String name;
+  private String password;
+  private String email;
+  private String mobile;
+  private byte status;
+  private String createBy;
+  private Date createTime;
+  private String lastUpdateBy;
+  private Date lastUpdateTime;
+  private byte delFlag;
+  private String perms;
 
-    private Integer id;
-    private String name;
-    private String password;
-    private String email;
-    private String mobile;
-    private Integer status;
-    private String createBy;
-    private Date createTime;
-    private String lastUpdateBy;
-    private Date lastUpdateTime;
-    private Integer delFlag;
+  public String getPerms() {
+    return perms;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public void setPerms(String perms) {
+    this.perms = perms;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getMobile() {
-        return mobile;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
+  public String getMobile() {
+    return mobile;
+  }
 
-    public Integer getStatus() {
-        return status;
-    }
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+  public byte getStatus() {
+    return status;
+  }
 
-    public String getCreateBy() {
-        return createBy;
-    }
+  public void setStatus(byte status) {
+    this.status = status;
+  }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
+  public String getCreateBy() {
+    return createBy;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public void setCreateBy(String createBy) {
+    this.createBy = createBy;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
-    }
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    public void setLastUpdateBy(String lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
-    }
+  public String getLastUpdateBy() {
+    return lastUpdateBy;
+  }
 
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
-    }
+  public void setLastUpdateBy(String lastUpdateBy) {
+    this.lastUpdateBy = lastUpdateBy;
+  }
 
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-    }
+  public Date getLastUpdateTime() {
+    return lastUpdateTime;
+  }
 
-    public Integer getDelFlag() {
-        return delFlag;
-    }
+  public void setLastUpdateTime(Date lastUpdateTime) {
+    this.lastUpdateTime = lastUpdateTime;
+  }
 
-    public void setDelFlag(Integer delFlag) {
-        this.delFlag = delFlag;
-    }
+  public byte getDelFlag() {
+    return delFlag;
+  }
+
+  public void setDelFlag(byte delFlag) {
+    this.delFlag = delFlag;
+  }
+
+  @Override
+  public String toString() {
+    return "User{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", mobile='"
+        + mobile
+        + '\''
+        + ", status="
+        + status
+        + ", createBy='"
+        + createBy
+        + '\''
+        + ", createTime="
+        + createTime
+        + ", lastUpdateBy='"
+        + lastUpdateBy
+        + '\''
+        + ", lastUpdateTime="
+        + lastUpdateTime
+        + ", delFlag="
+        + delFlag
+        + ", perms='"
+        + perms
+        + '\''
+        + '}';
+  }
 }
