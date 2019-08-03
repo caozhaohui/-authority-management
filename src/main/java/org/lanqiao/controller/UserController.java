@@ -162,4 +162,22 @@ public class UserController {
     }
     return jsonResult;
   }
+  RequestMapping("/sys/user/delete")
+  @ResponseBody
+  public JsonResult deleteUser(@RequestParam("id") String id, HttpServletResponse response){
+    UserService userService=new UserService();
+    JsonResult jsonResult=null;
+    try {
+      int i=userService.deleteUser(id);
+      if(i==1){
+        jsonResult = new JsonResult("200", "删除用户成功", "");
+      }else {
+        jsonResult =new JsonResult("400", "删除用户失败", "");
+      }
+    }catch (Exception e){
+      e.printStackTrace();
+      jsonResult=new JsonResult("500", "删除用户异常", "");
+    }
+    return jsonResult;
+  }
 }
