@@ -150,6 +150,34 @@
       <version>0.4.8</version>
     </dependency>
 
+    <!--spring发送邮件依赖spring.version=4.3.8.RELEASE-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>4.3.18.RELEASE</version>
+    </dependency>
+
+    <!-- Javamail API -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.5</version>
+    </dependency>
+
+
+    <!--日志-->
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.2</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -5,31 +5,39 @@ import org.lanqiao.service.UserService;
 import org.lanqiao.util.JsonWriter;
 import org.lanqiao.vo.JsonResult;
 import org.lanqiao.vo.Menu;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@Controller
+// @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600,allowedHeaders=
+// "http://localhost:8080",allowCredentials = "true")
+
+@CrossOrigin
 @RequestMapping("/api")
+@RestController
 public class UserController {
 
-  @RequestMapping("/login")
-  @ResponseBody
+  @RequestMapping(value = "/login")
   public JsonResult login(
       @RequestParam("username") String username,
       @RequestParam("password") String password,
-      HttpSession session) {
+      HttpServletRequest request) {
+    HttpSession session = request.getSession();
+
     JsonResult jsonResult = null;
     try {
       UserService service = new UserService();
       User user = service.queryByName(username);
       if (user.getName().equals(username) && user.getPassword().equals(password)) {
         session.setAttribute("loginUserKey", user);
+        User a = (User) session.getAttribute("loginUserKey");
+        System.out.println("user" + a.toString());
         jsonResult = new JsonResult("200", "登陆成功", user);
       } else {
         jsonResult = new JsonResult("404", "登陆失败", "");
@@ -50,17 +58,20 @@ public class UserController {
     return jsonResult;
   }
 
+
   @RequestMapping("/menu")
-  @ResponseBody
-  public JsonResult menu(HttpSession session) {
+  public JsonResult menu(HttpServletRequest request, @RequestParam("id") String id) {
     JsonResult jsonResult = null;
+    HttpSession session = request.getSession();
     User user = (User) session.getAttribute("loginUserKey");
     System.out.println("userName：" + user.getName());
     try {
       UserService userService = new UserService();
       List<Menu> menus = userService.menuList(user.getId().toString());
+      //      List<Menu> menus = userService.menuList(id);
       if (menus.size() > 0) {
         jsonResult = new JsonResult("200", "查询成功", menus);
+
       } else {
         jsonResult = new JsonResult("404", "查询失败", "");
       }
@@ -73,8 +84,7 @@ public class UserController {
 
   // 查询用户列表
   @RequestMapping("/sys/user/view")
-  @ResponseBody
-  public JsonResult userList(HttpSession session) {
+  public JsonResult userList() {
     JsonResult jsonResult = null;
     try {
       UserService userService = new UserService();
@@ -93,7 +103,6 @@ public class UserController {
 
   // 添加用户
   @RequestMapping("/sys/user/add")
-  @ResponseBody
   public JsonResult addUser(
       @RequestParam("name") String name,
       @RequestParam("password") String password,
@@ -129,7 +138,6 @@ public class UserController {
 
   // 更新用户
   @RequestMapping("/sys/user/update")
-  @ResponseBody
   public JsonResult updateUser(
       @RequestParam("name") String name,
       @RequestParam("password") String password,

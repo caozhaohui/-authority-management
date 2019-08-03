@@ -19,9 +19,6 @@
     <context:component-scan base-package="org.lanqiao.controller"></context:component-scan>
 
 
-
-
-
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
         <property name="prefix" value="/"/>
@@ -32,15 +29,18 @@
     <!--登陆拦截器-->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/api/**"/>
-            <mvc:exclude-mapping path="/api/login"  />
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/api/login"/>
+            <!--<mvc:exclude-mapping path="/api/menu"/>-->
             <bean class="org.lanqiao.interceptor.interceptor"/>
         </mvc:interceptor>
         <!--<mvc:interceptor>-->
         <!--<mvc:mapping path="/api/sys/**"/>-->
         <!--&lt;!&ndash;<mvc:exclude-mapping path="/api/login" />&ndash;&gt;-->
+        <!--<mvc:exclude-mapping path="/api/menu"/>-->
         <!--<bean class="org.lanqiao.interceptor.PermsInterceptor"/>-->
         <!--</mvc:interceptor>-->
     </mvc:interceptors>
     <!--权限拦截器-->
+
 </beans>
