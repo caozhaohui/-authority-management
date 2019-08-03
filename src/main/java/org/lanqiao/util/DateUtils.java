@@ -5,25 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtils {
-  public static Date toDate(String obj) throws ParseException {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    return obj == null ? null : formatter.parse(obj);
-  }
-
-  public static String toString(Date obj) {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    return obj == null ? null : formatter.format(obj);
-  }
-
-  public static Date getNow() {
-    Date a = null;
-    try {
-      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      a = toDate(formatter.format(new Date()));
-    } catch (ParseException e) {
-      e.getStackTrace();
+    public  static Date toDate(String obj) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return  obj== null ? null :formatter.parse(obj);
+    }
+    public  static String toString(Date obj) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return  obj== null ? null :formatter.format(obj);
     }
 
-    return a;
-  }
 }

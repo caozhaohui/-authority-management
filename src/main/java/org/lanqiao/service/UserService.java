@@ -48,4 +48,9 @@ public class UserService {
     UserMapper map = new UserMapper();
     return map.addUser(user);
   }
+   //删除用户
+  public int deleteUser(String  id){
+    UserMapper mapper=new UserMapper();
+   return mapper.deleteUser(id);
+  }
 }

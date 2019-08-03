@@ -213,4 +213,15 @@ public class UserMapper {
     }
     return i;
   }
+  //删除用户
+  public int deleteUser(String id){
+    String sql = "delete from sys_user where id =?";
+    int i=0;
+    try{
+      i=SqlUtils.executeUpdate(sql, id);
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    return i;
+  }
 }
