@@ -1,7 +1,9 @@
 package org.lanqiao.pojo;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Privs {
 
@@ -17,6 +19,15 @@ public class Privs {
     private String lastUpdateBy;
     private Date lastUpdateTime;
     private Integer delFlag;
+    private List<Privs> list = new ArrayList<>();
+
+    public List<Privs> getList() {
+        return list;
+    }
+
+    public void setList(List<Privs> list) {
+        this.list = list;
+    }
 
     public Integer getId() {
         return id;
