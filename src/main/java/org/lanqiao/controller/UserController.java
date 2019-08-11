@@ -34,6 +34,8 @@ public class UserController {
             HttpServletRequest request) {
         HttpSession session = request.getSession();
 
+        System.out.println(username+password);
+
         JsonResult jsonResult = null;
         try {
             UserService service = new UserService();
