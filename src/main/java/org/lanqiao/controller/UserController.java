@@ -105,6 +105,7 @@ public class UserController {
             @RequestParam(value = "pageSize") int pageSize) {
         JsonResult jsonResult = null;
         try {
+            System.out.println(111);
             PageHelper.startPage(pageNum, pageSize);
             List<User> user = userServiceImpl.userList();
             PageInfo pageInfo = new PageInfo(user);
