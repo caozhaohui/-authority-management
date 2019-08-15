@@ -3,19 +3,43 @@ package org.lanqiao.pojo;
 import java.util.Date;
 
 public class User {
+  private Long id;
 
-  private Integer id;
   private String name;
+
   private String password;
+
   private String email;
-  private String mobile;
-  private byte status;
-  private String createBy;
-  private Date createTime;
-  private String lastUpdateBy;
-  private Date lastUpdateTime;
-  private byte delFlag;
+
   private String perms;
+
+  private String mobile;
+
+  private Byte status;
+
+  private String createBy;
+
+  private Date createTime;
+
+  private String lastUpdateBy;
+
+  private Date lastUpdateTime;
+
+  private String role;
+
+  private Byte delFlag;
+
+  private String code;
+
+  public User() {}
+
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
 
   public String getPerms() {
     return perms;
@@ -25,11 +49,11 @@ public class User {
     this.perms = perms;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -38,7 +62,7 @@ public class User {
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name = name == null ? null : name.trim();
   }
 
   public String getPassword() {
@@ -46,7 +70,7 @@ public class User {
   }
 
   public void setPassword(String password) {
-    this.password = password;
+    this.password = password == null ? null : password.trim();
   }
 
   public String getEmail() {
@@ -54,7 +78,7 @@ public class User {
   }
 
   public void setEmail(String email) {
-    this.email = email;
+    this.email = email == null ? null : email.trim();
   }
 
   public String getMobile() {
@@ -62,14 +86,14 @@ public class User {
   }
 
   public void setMobile(String mobile) {
-    this.mobile = mobile;
+    this.mobile = mobile == null ? null : mobile.trim();
   }
 
-  public byte getStatus() {
+  public Byte getStatus() {
     return status;
   }
 
-  public void setStatus(byte status) {
+  public void setStatus(Byte status) {
     this.status = status;
   }
 
@@ -78,7 +102,7 @@ public class User {
   }
 
   public void setCreateBy(String createBy) {
-    this.createBy = createBy;
+    this.createBy = createBy == null ? null : createBy.trim();
   }
 
   public Date getCreateTime() {
@@ -94,7 +118,7 @@ public class User {
   }
 
   public void setLastUpdateBy(String lastUpdateBy) {
-    this.lastUpdateBy = lastUpdateBy;
+    this.lastUpdateBy = lastUpdateBy == null ? null : lastUpdateBy.trim();
   }
 
   public Date getLastUpdateTime() {
@@ -105,48 +129,39 @@ public class User {
     this.lastUpdateTime = lastUpdateTime;
   }
 
-  public byte getDelFlag() {
+  public Byte getDelFlag() {
     return delFlag;
   }
 
-  public void setDelFlag(byte delFlag) {
+  public void setDelFlag(Byte delFlag) {
     this.delFlag = delFlag;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code == null ? null : code.trim();
   }
 
   @Override
   public String toString() {
-    return "User{"
-        + "id="
-        + id
-        + ", name='"
-        + name
-        + '\''
-        + ", password='"
-        + password
-        + '\''
-        + ", email='"
-        + email
-        + '\''
-        + ", mobile='"
-        + mobile
-        + '\''
-        + ", status="
-        + status
-        + ", createBy='"
-        + createBy
-        + '\''
-        + ", createTime="
-        + createTime
-        + ", lastUpdateBy='"
-        + lastUpdateBy
-        + '\''
-        + ", lastUpdateTime="
-        + lastUpdateTime
-        + ", delFlag="
-        + delFlag
-        + ", perms='"
-        + perms
-        + '\''
-        + '}';
+    return "User{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", password='" + password + '\'' +
+            ", email='" + email + '\'' +
+            ", perms='" + perms + '\'' +
+            ", mobile='" + mobile + '\'' +
+            ", status=" + status +
+            ", createBy='" + createBy + '\'' +
+            ", createTime=" + createTime +
+            ", lastUpdateBy='" + lastUpdateBy + '\'' +
+            ", lastUpdateTime=" + lastUpdateTime +
+            ", role='" + role + '\'' +
+            ", delFlag=" + delFlag +
+            ", code='" + code + '\'' +
+            '}';
   }
 }

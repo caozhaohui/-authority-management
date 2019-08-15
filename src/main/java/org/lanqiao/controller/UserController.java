@@ -1,23 +1,12 @@
 package org.lanqiao.controller;
 
-import org.lanqiao.pojo.User;
-import org.lanqiao.service.UserService;
-import org.lanqiao.util.JavaMailUtil;
-import org.lanqiao.util.JsonWriter;
-import org.lanqiao.util.RandomUtil;
-import org.lanqiao.util.htmlText;
 import org.lanqiao.vo.JsonResult;
-import org.lanqiao.vo.Menu;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Properties;
 
 // @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600,allowedHeaders=
 // "http://localhost:8080",allowCredentials = "true")
@@ -27,23 +16,65 @@ import java.util.Properties;
 @RestController
 public class UserController {
 
+    @Autowired
+    UserServiceImpl userServiceImpl;
     @RequestMapping(value = "/login")
     public JsonResult login(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             HttpServletRequest request) {
         HttpSession session = request.getSession();
-
-        System.out.println(username+password);
-
         JsonResult jsonResult = null;
+        System.out.println(username + password);
         try {
-            UserService service = new UserService();
-            User user = service.queryByName(username);
+            User user = userServiceImpl.queryByName(username);
             if (user.getName().equals(username) && user.getPassword().equals(password)) {
                 session.setAttribute("loginUserKey", user);
                 User a = (User) session.getAttribute("loginUserKey");
-                System.out.println("user" + a.toString());
+                jsonResult = new JsonResult("200", "登陆成功", user);
+            } else {
+                jsonResult = new JsonResult("404", "登陆失败", "");
+            }
+        } catch (Exception e) {
+            jsonResult = new JsonResult("500", "数据错误", "");
+        }
+        return jsonResult;
+    }
+
+    // 模糊查询用户
+    @RequestMapping(value = "/sys/user/view/ByName")
+    public JsonResult userByName(
+            @RequestParam("username") String username,
+            @RequestParam("role") String role,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
+        JsonResult jsonResult = null;
+        try {
+            PageHelper.startPage(pageNum, pageSize);
+            System.out.println("username" + username);
+            List<User> user = userServiceImpl.ByName(username, role);
+            PageInfo pageInfo = new PageInfo(user);
+            if (user != null) {
+                jsonResult = new JsonResult("200", "查询成功", pageInfo);
+            } else {
+                jsonResult = new JsonResult("404", "查询失败", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonResult = new JsonResult("500", "数据错误", "");
+        }
+        return jsonResult;
+    }
+
+    //   通过用户id查询
+    @ResponseBody
+    @RequestMapping(value = "/sys/user/view/ById")
+    public JsonResult userByUserId(@RequestParam("userId") int userId) {
+        JsonResult jsonResult = null;
+
+        try {
+            User user = userServiceImpl.queryById(userId);
+            if (user != null) {
                 jsonResult = new JsonResult("200", "登陆成功", user);
             } else {
                 jsonResult = new JsonResult("404", "登陆失败", "");
@@ -56,47 +87,25 @@ public class UserController {
 
     // 退出请求
     @RequestMapping("/logout")
-    public JsonResult logout(HttpServletResponse response, HttpSession httpSession) throws Exception {
+    public JsonResult logout(HttpSession httpSession) throws Exception {
         JsonResult jsonResult = new JsonResult("200", "退出登录成功", "");
         // 清空session
         httpSession.invalidate();
-        JsonWriter.writer(response, jsonResult);
-        return jsonResult;
-    }
-
-
-    @RequestMapping("/menu")
-    public JsonResult menu(HttpServletRequest request, @RequestParam("id") String id) {
-        JsonResult jsonResult = null;
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("loginUserKey");
-        System.out.println("userName：" + user.getName());
-        try {
-            UserService userService = new UserService();
-            List <Menu> menus = userService.menuList(user.getId().toString());
-            //      List<Menu> menus = userService.menuList(id);
-            if (menus.size() > 0) {
-                jsonResult = new JsonResult("200", "查询成功", menus);
-
-            } else {
-                jsonResult = new JsonResult("404", "查询失败", "");
-            }
-        } catch (Exception e) {
-            e.getStackTrace();
-            jsonResult = new JsonResult("500", "数据错误", "");
-        }
         return jsonResult;
     }
 
     // 查询用户列表
     @RequestMapping("/sys/user/view")
-    public JsonResult userList() {
+    public JsonResult userList(
+            @RequestParam(value = "pageNum") int pageNum,
+            @RequestParam(value = "pageSize") int pageSize) {
         JsonResult jsonResult = null;
         try {
-            UserService userService = new UserService();
-            List <User> users = userService.userList();
-            if (users.size() > 0) {
-                jsonResult = new JsonResult("200", "查询成功", users);
+            PageHelper.startPage(pageNum, pageSize);
+            List<User> user = userServiceImpl.userList();
+            PageInfo pageInfo = new PageInfo(user);
+            if (user != null) {
+                jsonResult = new JsonResult("200", "查询成功", pageInfo);
             } else {
                 jsonResult = new JsonResult("404", "查询失败", "");
             }
@@ -114,23 +123,27 @@ public class UserController {
             @RequestParam("password") String password,
             @RequestParam("email") String email,
             @RequestParam("mobile") String mobile,
-            @RequestParam("code") String code,
+            @RequestParam("status") Byte status,
             HttpSession session,
-            @RequestParam("role_id") String role_id) {
-        User user1 = (User) session.getAttribute("loginUserKey");
-        String create_by = user1.getName();
+            @RequestParam("role") String role) {
+//      User user1 = (User) session.getAttribute("loginUserKey");
+//      String create_by = user1.getName();
+//
         JsonResult jsonResult = null;
         User user = new User();
         user.setName(name);
         user.setPassword(password);
         user.setEmail(email);
         user.setMobile(mobile);
-        user.setCreateBy(create_by);
+//      user.setCreateBy(create_by);
+        user.setStatus(status);
+        user.setRole(role);
+        System.out.println("得到的用户"+user.toString());
         // 缺个时间
         try {
-            UserService userService = new UserService();
+
             //      需要给用户添加角色
-            int i = userService.addUser(user);
+            Long i = userServiceImpl.addUser(user);
             if (i > 0) {
                 jsonResult = new JsonResult("200", "添加成功", "");
             } else {
@@ -142,49 +155,17 @@ public class UserController {
         }
         return jsonResult;
     }
-
-    // 更新用户
-    @RequestMapping("/sys/user/update")
-    public JsonResult updateUser(
-            @RequestParam("name") String name,
-            @RequestParam("password") String password,
-            @RequestParam("email") String email,
-            @RequestParam("mobile") String mobile,
-            HttpSession session,
-            @RequestParam("role_id") String role_id) {
-        User user1 = (User) session.getAttribute("loginUserKey");
-        String update_by = user1.getName();
-        JsonResult jsonResult = null;
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setMobile(mobile);
-        user.setLastUpdateBy(update_by);
-        // 缺个时间
-        try {
-            UserService userService = new UserService();
-            //      需要给用户更新角色
-            int i = userService.updateUser(user);
-            if (i > 0) {
-                jsonResult = new JsonResult("200", "更改成功", "");
-            } else {
-                jsonResult = new JsonResult("404", "更改失败", "");
-            }
-        } catch (Exception e) {
-            e.getStackTrace();
-            jsonResult = new JsonResult("500", "数据错误", "");
-        }
-        return jsonResult;
-    }
-
     @RequestMapping("/sys/user/delete")
-    public JsonResult deleteUser(@RequestParam("id") String id, HttpServletResponse response) {
-        UserService userService = new UserService();
+    public JsonResult deleteUser(@RequestParam("id") int[] id) {
+
         JsonResult jsonResult = null;
+        for (int i = 0; i < id.length; i++) {
+            System.out.println("数组的长度" + id[i]);
+        }
+
         try {
-            int i = userService.deleteUser(id);
-            if (i == 1) {
+            int i = userServiceImpl.deleteUser(id);
+            if (i>0) {
                 jsonResult = new JsonResult("200", "删除用户成功", "");
             } else {
                 jsonResult = new JsonResult("400", "删除用户失败", "");
@@ -196,51 +177,6 @@ public class UserController {
         return jsonResult;
     }
 
-
-    @RequestMapping("/sendEmail")
-    public JsonResult sendEmail(@RequestParam("email") String email, HttpServletRequest req) {
-
-        System.out.println("邮箱发送功能");
-        try {
-            JavaMailUtil.receiveMailAccount = email; // 给用户输入的邮箱发送邮件
-            // 1、创建参数配置，用于连接邮箱服务器的参数配置
-            Properties props = new Properties();
-            // 开启debug调试
-            props.setProperty("mail.debug", "true");
-            // 发送服务器需要身份验证
-            props.setProperty("mail.smtp.auth", "true");
-            // 设置右键服务器的主机名
-            props.setProperty("mail.host", JavaMailUtil.emailSMTPHost);
-            // 发送邮件协议名称
-            props.setProperty("mail.transport.protocol", "smtp");
-            // 2、根据配置创建会话对象，用于和邮件服务器交互
-            Session session = Session.getInstance(props);
-            // 设置debug，可以查看详细的发送log
-            session.setDebug(true);
-            // 3、创建一封邮件
-            String code = RandomUtil.getRandom();
-            System.out.println("邮箱验证码：" + code);
-            String html = htmlText.html(code);
-            MimeMessage message = JavaMailUtil.creatMimeMessage(session, JavaMailUtil.emailAccount,
-                    JavaMailUtil.receiveMailAccount, html);
-
-            // 4、根据session获取邮件传输对象
-            Transport transport = session.getTransport();
-            // 5、使用邮箱账号和密码连接邮箱服务器emailAccount必须与message中的发件人邮箱一致，否则报错
-            transport.connect(JavaMailUtil.emailAccount, JavaMailUtil.emailPassword);
-            // 6、发送邮件,发送所有收件人地址
-            transport.sendMessage(message, message.getAllRecipients());
-            // 7、关闭连接
-            transport.close();
-            //  写入session
-            req.getSession().setAttribute("code", code);
-        } catch (Exception e) {
-            e.printStackTrace();
-            req.getSession().setAttribute("error", "邮件发送失败");
-        }
-
-        return null;
-    }
 
 }
 

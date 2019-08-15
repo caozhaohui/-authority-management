@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.lanqiao.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="org.lanqiao.pojo.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_update_by" property="lastUpdateBy" jdbcType="VARCHAR"/>
+        <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="del_flag" property="delFlag" jdbcType="TINYINT"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="org.lanqiao.pojo.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="remark" property="role" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, name, password, email, mobile, status, create_by, create_time, last_update_by,
+    last_update_time, del_flag, code
+  </sql>
+
+    <sql id="Base_Column_List1">
+    u.id, u.name, u.password, u.email, u.mobile, u.status, r.remark
+  </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap2" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List1"/>
+        from
+        USER u
+        LEFT JOIN user_role ur ON u.id = ur.user_id
+        LEFT JOIN role r ON ur.role_id = r.id
+        LEFT JOIN role_menu rm ON r.id = rm.role_id
+        LEFT JOIN menu m ON rm.menu_id = m.id
+        JOIN menu m1 ON m.parent_id = m1.id
+        where u.id = 1
+        group by u.name
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap2">
+
+        SELECT
+        <include refid="Base_Column_List1"/>
+        FROM
+        USER u
+        LEFT JOIN user_role ur ON u.id = ur.user_id
+        LEFT JOIN role r ON ur.role_id = r.id
+        LEFT JOIN role_menu rm ON r.id = rm.role_id
+        LEFT JOIN menu m ON rm.menu_id = m.id
+        JOIN menu m1 ON m.parent_id = m1.id
+        WHERE
+        u.status =1 and
+        u.name = #{userName}
+        group by u.name
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap2">
+
+        SELECT
+        <include refid="Base_Column_List1"/>
+        FROM
+        USER u
+        LEFT JOIN user_role ur ON u.id = ur.user_id
+        LEFT JOIN role r ON ur.role_id = r.id
+        LEFT JOIN role_menu rm ON r.id = rm.role_id
+        LEFT JOIN menu m ON rm.menu_id = m.id
+        JOIN menu m1 ON m.parent_id = m1.id
+        WHERE
+        u.status =1 and
+        u.id = #{userId}
+        group by u.name
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap2">
+
+        SELECT
+        <include refid="Base_Column_List1"/>
+        FROM
+        USER u
+        LEFT JOIN user_role ur ON u.id = ur.user_id
+        LEFT JOIN role r ON ur.role_id = r.id
+        LEFT JOIN role_menu rm ON r.id = rm.role_id
+        LEFT JOIN menu m ON rm.menu_id = m.id
+        JOIN menu m1 ON m.parent_id = m1.id
+        WHERE
+        u.status =1
+        group by u.name
+    </select>
+
+    <select id="ByName" resultMap="BaseResultMap2">
+        <bind name="mohuname" value=" '%'+_parameter.username+'%' "/>
+        SELECT
+        <include refid="Base_Column_List1"/>
+        FROM
+        USER u
+        LEFT JOIN user_role ur ON u.id = ur.user_id
+        LEFT JOIN role r ON ur.role_id = r.id
+        LEFT JOIN role_menu rm ON r.id = rm.role_id
+        LEFT JOIN menu m ON rm.menu_id = m.id
+        JOIN menu m1 ON m.parent_id = m1.id
+        <where>
+            u.status =1
+            <if test="_parameter.username != null and _parameter.username != ''">
+
+                and u.name like #{mohuname}
+            </if>
+            <if test="_parameter.role != null and _parameter.role != ''">
+                and r.remark = #{role}
+            </if>
+        </where>
+        GROUP BY
+        u.NAME
+    </select>
+
+
+    <delete id="deleteByPrimaryKey">
+        delete from user
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <insert id="insert" parameterType="org.lanqiao.pojo.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user ( name, password,
+      email, mobile, status,code
+      )
+    values ( #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},1
+      )
+  </insert>
+
+
+
+
+    <insert id="insertSelective" parameterType="org.lanqiao.pojo.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="lastUpdateBy != null">
+                last_update_by,
+            </if>
+            <if test="lastUpdateTime != null">
+                last_update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateBy != null">
+                #{lastUpdateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=TINYINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.pojo.User">
+        update user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateBy != null">
+                last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=TINYINT},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.lanqiao.pojo.User">
+    update user
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
