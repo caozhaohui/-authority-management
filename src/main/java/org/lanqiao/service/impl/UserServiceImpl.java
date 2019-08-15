@@ -20,7 +20,9 @@ public class UserServiceImpl implements UserService {
     // 通过用户名称查询用户
     User user = null;
     try {
+      System.out.println("我进来了");
       user = userMapper.selectByName(username);
+      System.out.println("我能出来吗"+user);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

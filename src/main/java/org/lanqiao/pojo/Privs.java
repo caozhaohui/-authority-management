@@ -125,13 +125,22 @@ public class Privs {
         this.delFlag = delFlag;
     }
 
-
-
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Privs{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentId=" + parentId +
+                ", url='" + url + '\'' +
+                ", perms='" + perms + '\'' +
+                ", type=" + type +
+                ", icon='" + icon + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", createTime=" + createTime +
+                ", lastUpdateBy='" + lastUpdateBy + '\'' +
+                ", lastUpdateTime=" + lastUpdateTime +
+                ", delFlag=" + delFlag +
+                ", list=" + list +
+                '}';
+    }
 }

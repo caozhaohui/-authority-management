@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.mapper.PrivsMapper">
+    
+    <resultMap id="baseResultMap" type="org.lanqiao.pojo.Privs">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="DATE"/>
+        <result property="lastUpdateBy" column="last_update_by" jdbcType="VARCHAR"/>
+        <result property="lastUpdateTime" column="last_update_time" jdbcType="DATE"/>
+        <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+        <collection property="list" ofType="org.lanqiao.pojo.Privs">
+            <id property="id" column="sid" jdbcType="INTEGER"/>
+            <result property="name" column="sname" jdbcType="VARCHAR"/>
+            <result property="parentId" column="sparent_id" jdbcType="INTEGER"/>
+            <result property="url" column="surl" jdbcType="VARCHAR"/>
+            <result property="perms" column="sperms" jdbcType="VARCHAR"/>
+            <result property="type" column="stype" jdbcType="INTEGER"/>
+            <result property="createBy" column="screate_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="screate_time" jdbcType="DATE"/>
+            <result property="lastUpdateBy" column="slast_update_by" jdbcType="VARCHAR"/>
+            <result property="lastUpdateTime" column="slast_update_time" jdbcType="DATE"/>
+            <result property="delFlag" column="sdel_flag" jdbcType="INTEGER"/>
+        </collection>
+
+
+    </resultMap>
+
+    <!--所有权限的列名字信息-->
+    <sql id="allPrivsMessage">
+        sm.id,sm.name,sm.parent_id,sm.url,sm.perms,sm.type,sm.create_by,sm.create_time
+        ,sm.last_update_by,sm.last_update_time,sm.del_flag
+        ,sm2.id sid,sm2.name sname,sm2.parent_id sparent_id,sm2.url surl
+         ,sm2.perms sperms,sm2.type stype,sm2.create_by screate_by,sm2.create_time screate_time,
+         sm2.last_update_time slast_update_time,sm2.last_update_by slast_update_by,
+         sm2.del_flag sdel_flag
+    </sql>
+
+    <!--单个权限的信息（不加子权限）-->
+    <sql id="onePrivsMessage">
+        sm.id,sm.name,sm.parent_id,sm.url,sm.perms,sm.type,sm.create_by,sm.create_time
+        ,sm.last_update_by,sm.last_update_time,sm.del_flag
+    </sql>
+
+    <!--查询目录-->
+    <select id="queryOne" resultType="org.lanqiao.pojo.Privs" >
+        select
+        <include refid="onePrivsMessage"/>
+        from menu sm
+        where type = 0
+    </select>
+
+    <!--查询菜单-->
+    <select id="queryTwo" resultType="org.lanqiao.pojo.Privs" >
+        select
+        <include refid="onePrivsMessage"/>
+        from menu sm
+        where type = 1
+    </select>
+
+    <!--查询所有权限信息-->
+    <select id="queryAll" resultMap="baseResultMap">
+        select
+        <include refid="allPrivsMessage"/>
+         from menu sm
+          left join role_menu srm on srm.menu_id = sm.id
+          left join role sr on sr.id = srm.role_id
+          left join user_role sur on sur.role_id = sr.id
+          left join user su on su.id = sur.user_id
+          left join menu sm2 on sm2.parent_id = sm.id
+        where sm.type = 0
+    </select>
+
+    <!--查询按钮类型-->
+    <select id="queryMenu" resultMap="baseResultMap">
+        select
+        <include refid="allPrivsMessage"/>
+        from menu sm
+        left join role_menu srm on srm.menu_id = sm.id
+        left join role sr on sr.id = srm.role_id
+        left join user_role sur on sur.role_id = sr.id
+        left join user su on su.id = sur.user_id
+        left join menu sm2 on sm2.parent_id = sm.id
+        where sm.type=2
+    </select>
+
+    <!--动态菜单-->
+    <select id="menusPrivs" resultMap="baseResultMap">
+        select
+        <include refid="allPrivsMessage"/>
+         from menu sm
+          left join role_menu srm on srm.menu_id = sm.id
+          left join role sr on sr.id = srm.role_id
+          left join user_role sur on sur.role_id = sr.id
+          left join user su on su.id = sur.user_id
+          left join menu sm2 on sm2.parent_id = sm.id
+          where su.id = #{id,jdbcType=INTEGER} and sm.type=0
+    </select>
+
+    <!--添加权限-->
+    <insert id="addPrivs" parameterType="org.lanqiao.pojo.Privs">
+        insert into menu
+        (name,parent_id,url,perms,type,create_by,create_time,del_flag)
+        values
+        (#{name,jdbcType=VARCHAR},#{parentId,jdbcType=INTEGER},#{url,jdbcType=VARCHAR},
+        #{perms,jdbcType=VARCHAR},#{type,jdbcType=INTEGER},#{createBy,jdbcType=VARCHAR}
+        ,#{createTime,jdbcType=DATE},#{delFlag,jdbcType=INTEGER})
+    </insert>
+
+    <!--删除权限-->
+    <update id="deletePrivs" parameterType="INTEGER">
+        update menu set del_flag = -1 where id = #{id}
+    </update>
+
+    <!--修改权限-->
+    <update id="updatePrivs" parameterType="org.lanqiao.pojo.Privs">
+        update menu set
+          name = #{name,jdbcType=VARCHAR},perms = #{perms,jdbcType=VARCHAR},
+          last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},url = #{url,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--根据权限id查询权限信息-->
+    <select id="queryPrivsById" resultType="org.lanqiao.pojo.Privs">
+        select
+        <include refid="onePrivsMessage"/>
+        from menu sm
+        where sm.id = #{prvisId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据角色Id查询角色的权限-->
+    <select id="queryByRoleId" resultMap="baseResultMap" parameterType="INTEGER">
+        select
+        <include refid="allPrivsMessage"/>
+        from menu sm
+        left join role_menu srm on sm.id = srm.menu_id
+        left join role sr on srm.role_id = sr.id
+        left join menu sm2 on sm2.parent_id = sm.id
+        where sr.id = #{roleId}
+    </select>
+
+    <!--给角色授权-->
+    <insert id="addRolePrivs" parameterType="java.util.Map">
+        insert into role_menu
+          (role_id,menu_id) values (#{roleId,jdbcType=INTEGER},#{privsId,jdbcType=INTEGER})
+    </insert>
+
+    <!--取消角色的某个权限-->
+    <delete id="delRolePrivs" parameterType="java.util.Map">
+        delete from role_menu
+        where role_id = #{roleId,jdbcType=INTEGER} and menu_id = #{privsId,jdbcType=INTEGER}
+    </delete>
+
+    <!--批量删除-->
+    <update id="someDel">
+        update menu set del_flag = -1
+        where id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--多条件查询-->
+    <select id="conditionSearch" resultMap="baseResultMap">
+        <bind name="pattern" value="'%'+name+'%'"/>
+        select
+        <include refid="allPrivsMessage"/>
+        from menu sm
+        left join menu sm2 on sm2.parent_id = sm.id
+        <where>
+            <if test="type!=null ">
+                sm.type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="name!=null and name!='' ">
+                AND sm.name LIKE #{pattern}
+            </if>
+        </where>
+    </select>
+</mapper>

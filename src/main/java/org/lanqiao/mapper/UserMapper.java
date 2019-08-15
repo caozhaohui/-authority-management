@@ -2,9 +2,11 @@ package org.lanqiao.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.lanqiao.pojo.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface UserMapper {
       int deleteByPrimaryKey(int[] id);
   //
