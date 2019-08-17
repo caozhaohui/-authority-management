@@ -1,52 +1,96 @@
-package org.lanqiao.service;
+package Service;
 
-import org.lanqiao.mapper.RoleMapper;
-import org.lanqiao.pojo.Role;
-import org.lanqiao.vo.PageResult;
+import Dao.RoleMapper;
+import Pojo.Role;
+import Pojo.RoleMenu;
+import Pojo.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
 public class RoleService {
-    RoleMapper mapper = new RoleMapper();
 
-    //查询所有角色带分页
-    public PageResult queryAllRoleM(int pageNum, int pageSize) {
-        return mapper.queryAllRole(pageNum, pageSize);
-    }
+    @Autowired
+    RoleMapper roleMapper;
 
-    //删除用户
-    public int deleteRoleM(String RoleId) {
-        return mapper.deleteRole(RoleId);
-    }
+    @Autowired
+    RoleMenu roleMenu;
 
-    //修改角色
-    public int updateRoleM(String name, String Remark) {
-        return mapper.updateRole(name, Remark);
-    }
+    @Autowired
+    UserRole userRole;
 
-    //新增角色
-    public int insertRoleM(String name, String Remark) {
-        return mapper.insertRole(name, Remark);
-    }
 
-    //根据用户名字查看角色
-    public Role queryRoleByNameM(String name) {
-
-        return mapper.queryRoleByName(name);
-    }
-
-    //删除某个用户角色
-    public int deleteRoleByIdM(String UserId) {
-        return mapper.deleteRoleById(UserId);
-    }
-
-    //修改某个用户角色
-    public int updateRoleBynameM(String RodeId, String UserId) {
-        return mapper.updateRoleByname(RodeId, UserId);
-    }
-
-    //新增某个用户角色
-    public int insertRoleBynameM(String UserId, String RoleId) {
-        return mapper.insertRoleByname(UserId, RoleId);
+    //新增某个用户一个或多个角色
+    public int insertRoleUser(UserRole uid, Long[] rid) {
+        List<UserRole> list = new ArrayList<UserRole>();
+        int j = 0;
+        for (Long i : rid) {
+            userRole.setUserId(uid.getUserId());
+            userRole.setRoleId(i);
+            list.add(userRole);
+            j = roleMapper.insertRoleUser(list);
+        }
+        return j;
     }
 
 
+    //删除一个用户一个或多个角色
+    public int delectRoleUser(UserRole uid, Long[] rid) {
+        List<UserRole> list = new ArrayList<UserRole>();
+        int j = 0;
+        for (Long i : rid) {
+            userRole.setUserId(uid.getUserId());
+            userRole.setRoleId(i);
+            list.add(userRole);
+            j = roleMapper.delectRoleUser(list);
+        }
+        return j;
+
+    }
+
+
+    //修改某个用户某个角色
+    public int updateRoleUser(UserRole urid) {
+        int i = roleMapper.updateRoleUser(urid);
+        return i;
+    }
+
+
+    //添加一个新的角色同时为它添加权限
+    public void insertRoleByAll(Role role, int[] mid) {
+        //先将一个角色存入到角色表中
+        roleMapper.insertRoleByAll(role);
+        List<RoleMenu> list = new ArrayList<RoleMenu>();
+        //循环传入的权限id
+        for (int i : mid) {
+            System.out.println(role.getId());
+            //循环设置权限id对应一个角色
+            roleMenu.setMenuId(i);
+            roleMenu.setRoleId(role.getId());
+            //把中间表信息循环加入list
+            list.add(roleMenu);
+            roleMapper.insertRoleMenu(list);
+        }
+        //将对应的角色id和权限id 将入到中间表中
+    }
+
+
+    //查询所有角色
+    public List selectRoleAll() {
+        return roleMapper.selectRoleAll();
+    }
+
+
+    //删除一个或多个角色
+    public int deleteRoleById(String id) {
+        List<String> list = new ArrayList<String>();
+        String[] stIds = id.split(",");
+        for (String value : stIds) {
+            list.add(value);
+        }
+        return roleMapper.deleteRoleById(list);
+    }
 }
