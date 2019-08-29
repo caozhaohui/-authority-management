@@ -1,9 +1,10 @@
-package Service;
+package org.lanqiao.service;
 
-import Dao.RoleMapper;
-import Pojo.Role;
-import Pojo.RoleMenu;
-import Pojo.UserRole;
+
+import org.lanqiao.mapper.RoleMapper;
+import org.lanqiao.pojo.Role;
+import org.lanqiao.pojo.RoleMenu;
+import org.lanqiao.pojo.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,13 +61,12 @@ public class RoleService {
 
 
     //添加一个新的角色同时为它添加权限
-    public void insertRoleByAll(Role role, int[] mid) {
+    public void insertRoleByAll(Role role, Long[] mid) {
         //先将一个角色存入到角色表中
         roleMapper.insertRoleByAll(role);
         List<RoleMenu> list = new ArrayList<RoleMenu>();
         //循环传入的权限id
-        for (int i : mid) {
-            System.out.println(role.getId());
+        for (Long i : mid) {
             //循环设置权限id对应一个角色
             roleMenu.setMenuId(i);
             roleMenu.setRoleId(role.getId());

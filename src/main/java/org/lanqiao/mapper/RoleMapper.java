@@ -1,9 +1,8 @@
-package Dao;
+package org.lanqiao.mapper;
 
-import Pojo.Role;
-import Pojo.RoleMenu;
-import Pojo.UserRole;
 import org.apache.ibatis.annotations.Param;
+import org.lanqiao.pojo.Role;
+import org.lanqiao.pojo.UserRole;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;

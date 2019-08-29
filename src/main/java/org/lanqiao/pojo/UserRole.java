@@ -1,4 +1,4 @@
-package Pojo;
+package org.lanqiao.pojo;
 
 import org.springframework.stereotype.Repository;
 

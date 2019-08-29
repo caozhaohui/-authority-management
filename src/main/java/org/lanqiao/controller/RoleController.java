@@ -1,19 +1,19 @@
-package Controler;
+package org.lanqiao.controller;
 
 
-import Pojo.Role;
-import Pojo.RoleMenu;
-import Pojo.UserRole;
-import Service.RoleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.lanqiao.pojo.Role;
+import org.lanqiao.pojo.RoleMenu;
+import org.lanqiao.pojo.UserRole;
+import org.lanqiao.service.RoleService;
+import org.lanqiao.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import vo.JsonResult;
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -27,8 +27,7 @@ public class RoleController {
     @Autowired
     RoleService roleService;
 
-    @Autowired
-    RoleMenu roleMenu;
+
 
     @Resource
     UserRole userRole;
@@ -109,7 +108,7 @@ public class RoleController {
 
     //新增角色
     @RequestMapping("/sys/insertRoleByAll")
-    public JsonResult insertRoleByAll( String name, String remark, String create_by, int[] mid) {
+    public JsonResult insertRoleByAll( String name, String remark, String create_by, Long [] mid) {
         try {
             role.setName(name);
             role.setRemark(remark);

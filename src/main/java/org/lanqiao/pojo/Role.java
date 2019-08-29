@@ -3,10 +3,13 @@ package org.lanqiao.pojo;
 
 
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
 
+@Repository
 public class Role {
     private Integer id;
     private String name;

@@ -26,22 +26,22 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
-    <!--&lt;!&ndash;登陆拦截器&ndash;&gt;-->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<mvc:exclude-mapping path="/api/login"/>-->
+    <!--登陆拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/api/login"/>
             <!--<mvc:exclude-mapping path="/api/sendEmail"/>-->
-            <!--&lt;!&ndash;<mvc:exclude-mapping path="/api/menu"/>&ndash;&gt;-->
-            <!--<bean class="org.lanqiao.interceptor.interceptor"/>-->
+            <!--<mvc:exclude-mapping path="/api/menu"/>-->
+            <bean class="org.lanqiao.interceptor.interceptor"/>
+        </mvc:interceptor>
+        <!--<mvc:interceptor>-->
+        <!--<mvc:mapping path="/api/sys/**"/>-->
+        <!--&lt;!&ndash;<mvc:exclude-mapping path="/api/login" />&ndash;&gt;-->
+        <!--<mvc:exclude-mapping path="/api/menu"/>-->
+        <!--<bean class="org.lanqiao.interceptor.PermsInterceptor"/>-->
         <!--</mvc:interceptor>-->
-        <!--&lt;!&ndash;<mvc:interceptor>&ndash;&gt;-->
-        <!--&lt;!&ndash;<mvc:mapping path="/api/sys/**"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;&lt;!&ndash;<mvc:exclude-mapping path="/api/login" />&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<mvc:exclude-mapping path="/api/menu"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<bean class="org.lanqiao.interceptor.PermsInterceptor"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;</mvc:interceptor>&ndash;&gt;-->
-    <!--</mvc:interceptors>-->
+    </mvc:interceptors>
 
 
 </beans>

@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.RoleMapper">
+<mapper namespace="org.lanqiao.mapper.RoleMapper">
 
     <!--解析角色map-->
-    <resultMap id="UserMap" type="Pojo.Role">
+    <resultMap id="UserMap" type="org.lanqiao.pojo.Role">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="remark" column="remark"/>
@@ -28,11 +28,11 @@
         </foreach>
     </delete>
     <!--修改某个用户的某个角色   完-->
-    <update id="updateRoleUser" parameterType="Pojo.UserRole">
+    <update id="updateRoleUser" parameterType="org.lanqiao.pojo.UserRole">
         update user_role set role_id=#{setroleId} where user_id=#{userId}  and role_id=#{roleId}
     </update>
     <!--添加一个新的角色   完-->
-    <insert id="insertRoleByAll" useGeneratedKeys="true" keyProperty="id" parameterType="Pojo.Role">
+    <insert id="insertRoleByAll" useGeneratedKeys="true" keyProperty="id" parameterType="org.lanqiao.pojo.Role">
         INSERT INTO Role (name,remark,create_by,create_time,del_flag) values (#{name},#{remark},#{createBy},now(),0)
     </insert>
     <!--添加一个新的角色同时为它添加权限   完-->

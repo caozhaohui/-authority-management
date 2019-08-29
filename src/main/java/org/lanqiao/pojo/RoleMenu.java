@@ -1,4 +1,4 @@
-package Pojo;
+package org.lanqiao.pojo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -11,17 +11,25 @@ public class RoleMenu {
 
     private Long id;
 
-    private Long roleId;
+    private Integer roleId;
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
-    private int menuId;
+    public Long getMenuId() {
+        return menuId;
+    }
+
+    private Long menuId;
+
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
+    }
 
     private String createBy;
 
@@ -39,13 +47,6 @@ public class RoleMenu {
         this.id = id;
     }
 
-    public int getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
-    }
 
     public String getCreateBy() {
         return createBy;

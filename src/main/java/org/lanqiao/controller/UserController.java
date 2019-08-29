@@ -6,11 +6,17 @@ import org.lanqiao.pojo.User;
 import org.lanqiao.service.impl.UserServiceImpl;
 import org.lanqiao.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 
 // @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600,allowedHeaders=
 // "http://localhost:8080",allowCredentials = "true")
@@ -22,28 +28,58 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userServiceImpl;
-    @RequestMapping(value = "/login")
-    public JsonResult login(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            HttpServletRequest request) {
-        HttpSession session = request.getSession();
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @RequestMapping("/login")
+    public JsonResult login(String username, String password, HttpServletResponse reponse){
         JsonResult jsonResult = null;
-        System.out.println(username + password);
-        try {
+        try{
             User user = userServiceImpl.queryByName(username);
-            if (user.getName().equals(username) && user.getPassword().equals(password)) {
-                session.setAttribute("loginUserKey", user);
-                User a = (User) session.getAttribute("loginUserKey");
+            if(user.getName().equals(username)&&user.getPassword().equals(password)){
+                String token_jSession = user.getId().toString()+user.getPassword();
+                redisTemplate.opsForValue().set(token_jSession,user.getId());
+                redisTemplate.expire(token_jSession,24, TimeUnit.HOURS);
+                Cookie cookie = new Cookie("token",token_jSession);
+                cookie.setPath("/");
+                cookie.setMaxAge(3600);
+                reponse.addCookie(cookie);
+                System.out.println("我到json上面了");
                 jsonResult = new JsonResult("200", "登陆成功", user);
-            } else {
+            }else {
                 jsonResult = new JsonResult("404", "登陆失败", "");
             }
-        } catch (Exception e) {
-            jsonResult = new JsonResult("500", "数据错误", "");
+        }catch (Exception e) {
+            System.out.println("我怎么报错了");
+           jsonResult = new JsonResult("500", "数据错误", "");
         }
         return jsonResult;
     }
+
+
+//    @RequestMapping(value = "/login")
+//    public JsonResult login(
+//            @RequestParam("username") String username,
+//            @RequestParam("password") String password,
+//            HttpServletRequest request) {
+//        HttpSession session = request.getSession();
+//        JsonResult jsonResult = null;
+//        System.out.println(username + password);
+//        try {
+//            User user = userServiceImpl.queryByName(username);
+//            if (user.getName().equals(username) && user.getPassword().equals(password)) {
+//                session.setAttribute("loginUserKey", user);
+//                User a = (User) session.getAttribute("loginUserKey");
+//                jsonResult = new JsonResult("200", "登陆成功", user);
+//            } else {
+//                jsonResult = new JsonResult("404", "登陆失败", "");
+//            }
+//        } catch (Exception e) {
+//            jsonResult = new JsonResult("500", "数据错误", "");
+//        }
+//        return jsonResult;
+//    }
 
     // 模糊查询用户
     @RequestMapping(value = "/sys/user/view/ByName")
@@ -101,8 +137,8 @@ public class UserController {
     // 查询用户列表
     @RequestMapping("/sys/user/view")
     public JsonResult userList(
-            @RequestParam(value = "pageNum") int pageNum,
-            @RequestParam(value = "pageSize") int pageSize) {
+            @RequestParam("pageNum") int pageNum,
+            @RequestParam("pageSize") int pageSize) {
         JsonResult jsonResult = null;
         try {
             System.out.println(111);
